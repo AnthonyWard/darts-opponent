@@ -1,4 +1,4 @@
-export default class Finishes {
+export default class Thinker {
 
     static calculate(score) {
         let target = " ¯\\_(ツ)_/¯ "

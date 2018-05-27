@@ -1,3 +1,72 @@
+# Darts Opponent
+
+A project to make a half decent darts oppoent with a simple UI and one that can adapt to your skill level.
+
+## Components
+
+Loose idea of the components required to make this work
+
+Needs to support
+
+- Auto update of difficulty
+- Type of game (just X01 to start)
+- Rules options (double in, northern bust, etc)
+
+### The Thinker
+
+In
+
+- How many darts left in hand
+- Beginner, Average, or Pro
+- Rules
+
+Out
+
+- Plan of to aim the next hand of darts at
+
+### Aimer
+
+In
+
+- What to aim at
+- Biginner, Average, Pro (sliding scale, 0 to 100)
+
+Out
+
+- What was hit (could be the wire)
+
+Depends on
+
+- Board
+
+### Board
+
+- Coordnates of the board
+- Wire thinkness
+
+### Game
+
+- Whos turn is it
+- Keep track of rules
+- Keep track of score
+- Track darts in hand
+- New plan required or not
+- Adjust difficulty after game
+
+### Chalker
+
+- Keeper of game stats
+
+### Player
+
+- Preferences
+  - Game type: 301 / 501 / X01
+  - Extra Rules: Nothern Bust / Double In
+  - Sets: 1 / 3 / X
+  - Legs: First To 1 / 3 / X
+  - Difficulty: 1 - 100
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
