@@ -1,4 +1,5 @@
 import Score from "./score";
+import Dimensions from "./dimensions";
 
 // dimensions are radius and angle
 export default class Board {
@@ -38,23 +39,61 @@ export default class Board {
         ];    
     }
 
-    throw(angle, radius) {
+    throw(score, multiplier = 1, difficulty = 50) {
+        let desiredAim = new Dimensions(9, 0);
+
+        if (score === 25) {
+            desiredAim.radius = multiplier === 1 ? 0 : (this.outerbull + this.bullseye) / 2;
+        } else {
+            desiredAim.angle = this.scores.find(x => x.score === score).center;
+            desiredAim.radius = this.radiusForMultiplier(multiplier);
+        }
+
+        // switch (dartsLeft) {
+        //     case 1: radius - 4.5;
+        //     case 2: radius + 4.5;
+        //     default: //do nothing
+        // }
+
+        let actualAim = this.accuracy(desiredAim, difficulty);
+
+        return {
+            desiredAim,
+            actualAim,
+            score: this.hit(actualAim)
+        };
+    }
+
+    hit(aim) {
         let score = new Score(0);
 
         // standard scoring
-        if (radius < 0) {
+        if (aim.radius < 0) {
             throw Error("You can't throw a dart there");
-        } else if (radius < this.outerbull) {
+        } else if (aim.radius < this.outerbull) {
             score = new Score(25)
         } else {
-            score = new Score(this.scoreFromAngle(angle));
+            score = new Score(this.scoreFromAngle(aim.angle));
         }
 
         // multiply it
-        score.multiplier = this.scoreMultiplier(radius);
+        score.multiplier = this.scoreMultiplierFromRadius(aim.radius);
 
         // did it hit a wire - todo
         return score;
+    }
+
+    accuracy(dimensions, difficulty) {
+        if (difficulty < 1) {
+            difficulty = 1;
+        }
+
+        let difficultyScale = 1 + (Math.pow(difficulty, 2) / 100);
+
+        return new Dimensions(
+            dimensions.angle + (Math.random() - 0.5) * 360 / difficultyScale,
+            dimensions.radius + (Math.random() - 0.5) * 360 / difficultyScale
+        );
     }
 
     scoreFromAngle(angle) {
@@ -66,7 +105,7 @@ export default class Board {
         return this.scores.find(score => angle >= score.from && angle < score.to).score;
     }
 
-    scoreMultiplier(radius) {
+    scoreMultiplierFromRadius(radius) {
         let multiplier = 1;
         if (radius < this.doubleOuter && radius > this.doubleInner) {
             multiplier = 2;
@@ -78,6 +117,15 @@ export default class Board {
             multiplier = 2
         }
         return multiplier;
+    }
+
+    radiusForMultiplier(multiplier) {
+        switch (multiplier) {
+            case 1: return (this.doubleInner + this.trebleOuter) / 2;
+            case 2: return (this.doubleInner + this.doubleOuter) / 2;
+            case 3: return (this.trebleInner + this.trebleOuter) / 2;
+            default: throw Error("Multiplier needs to be from 1 to 3");
+        }
     }
 
 }

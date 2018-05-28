@@ -10,38 +10,42 @@ class App extends Component {
     super(props);
 
     this.state = {
-      score: 180,
+      remaining: 180,
       target: "Let's play",
-      angle: 0,
-      radius: 0,
-      newScore: {}
+      aimat: 20,
+      multi: 3,
+      diff: 30,
+      score: {}
     };
 
     this.board = new Board();
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleAngleChange = this.handleAngleChange.bind(this);
-    this.handleRadiusChange = this.handleRadiusChange.bind(this);
+    this.handleThrow = this.handleThrow.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleChange(event) {
     this.setState({
-      score: event.target.value,
+      remaining: event.target.value,
       target: thinker.calculate(event.target.value)
     });
   }
 
-  handleAngleChange(event) {
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
     this.setState({
-      angle: event.target.value,
-      newScore: this.board.throw(event.target.value, this.state.radius)
+      [name]: parseInt(value)
     });
   }
 
-  handleRadiusChange(event) {
+  handleThrow() {
+    console.log("throw");
     this.setState({
-      radius: event.target.value,
-      newScore: this.board.throw(this.state.angle, event.target.value)
+      score: this.board.throw(this.state.aimat, this.state.multi, this.state.diff)
     });
   }
 
@@ -53,10 +57,10 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          You have {this.state.score} remaining
+          You have {this.state.remaining} remaining
         </p>
 
-          <input type="number" value={this.state.score} onChange={this.handleChange} />
+          <input type="number" value={this.state.remaining} onChange={this.handleChange} />
 
         <h3>{this.state.target}</h3>
 
@@ -64,10 +68,15 @@ class App extends Component {
 
         <h2>Throw</h2>
 
-        Angle: <input type="number" value={this.state.angle} onChange={this.handleAngleChange} /> - 
-        Radius: <input type="number" value={this.state.radius} onChange={this.handleRadiusChange} />
+        <form>
+        Aim At: <input type="number" name="aimat" value={this.state.aimat} onChange={this.handleInputChange} /> - 
+        Multiplier: <input type="number" name="multi" value={this.state.multi} onChange={this.handleInputChange} /> - 
+        Difficulty: <input type="number" name="diff" value={this.state.diff} onChange={this.handleInputChange} />
+        </form>
 
-        <h3>{this.state.newScore.totalScore || "Let's Play!"}</h3>
+        <button name="throw" onClick={this.handleThrow}>Throw</button> <br/>
+
+        <code>{JSON.stringify(this.state.score, null, 2) || "Let's Play!"}</code>
 
       </div>
     );
