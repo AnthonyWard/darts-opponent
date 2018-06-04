@@ -28,7 +28,7 @@ export default class Dartboard extends Component {
             ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter, location, location + dartboardSlice);
             ctx.moveTo(this.canvasCenter, this.canvasCenter);
             if (i % 2) {
-                ctx.fillStyle = '#fffdf2'; // cream
+                ctx.fillStyle = '#fffadb'; // cream
             } else {
                 ctx.fillStyle = '#000000' // black
             }
