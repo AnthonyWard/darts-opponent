@@ -9,7 +9,7 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 4rem;
   padding: 20px;
   color: white;
 }
@@ -37,4 +37,13 @@ input[type=number] {
 button[name="throw"] {
   margin: 3em;
   height: 3em;
+}
+
+div.board {
+  width: 100%;
+}
+
+div.board > canvas {
+  width: 100%;
+  max-width: 450px;
 }

@@ -7,7 +7,7 @@ export default class Dartboard extends Component {
         this.state = {
             board: new Board()
         }
-        this.canvasSize = 400;
+        this.canvasSize = 450;
         this.canvasCenter = this.canvasSize / 2;
     }
 
@@ -18,6 +18,11 @@ export default class Dartboard extends Component {
         let ctx = canvas.getContext('2d');
         let dartboardSlice = Math.PI / 10;
         let offset = dartboardSlice * 5.5;
+
+        //board
+        ctx.beginPath();
+        ctx.arc(this.canvasCenter, this.canvasCenter, 210, 0, Math.PI * 2);
+        ctx.fill()
 
         // cork
         for(let i = 0; i < 20; i++) {
@@ -67,9 +72,20 @@ export default class Dartboard extends Component {
             ctx.fill()
         }
 
+        // outer bull
         ctx.beginPath();
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.outerbull, 0, Math.PI * 2);
+        ctx.fillStyle = '#10a500'; // green
+        ctx.fill();
 
+        // bull
+        ctx.beginPath();
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.bullseye, 0, Math.PI * 2);
+        ctx.fillStyle = '#c40000' //red
+        ctx.fill();
 
+        // wire
+        ctx.beginPath();
         ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter, 0, Math.PI * 2);
         ctx.moveTo(this.canvasCenter + this.state.board.doubleInner, this.canvasCenter);
         ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleInner, 0, Math.PI * 2);
@@ -81,18 +97,22 @@ export default class Dartboard extends Component {
         ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.outerbull, 0, Math.PI * 2);
         ctx.moveTo(this.canvasCenter + this.state.board.bullseye, this.canvasCenter);
         ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.bullseye, 0, Math.PI * 2);
-        
-        //ctx.moveTo(this.canvasCenter, this.canvasCenter);
-
-        // for(let i = 0; i < 20; i++) {
-        //     let location = (Math.PI / 10 * i) - (Math.PI / 10 * 5.5);
-        //     ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter + 5, location, location);
-        //     ctx.moveTo(this.canvasCenter, this.canvasCenter);
-        // }
-
-        //ctx.lineTo(this.canvasCenter + this.state.board.doubleOuter, this.canvasCenter + this.state.board.doubleOuter);
-
+        ctx.moveTo(this.canvasCenter + this.canvasSize / 2 - 20, this.canvasCenter);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.canvasSize / 2 - 20, 0, Math.PI * 2);
+        ctx.strokeStyle = "#bbbbbb";
         ctx.stroke();
+
+
+        // numbers
+        ctx.fillStyle = "#ffffff";
+        ctx.font = '20px Comic Sans MS';
+        ctx.textAlign = "center";
+        ctx.translate(this.canvasCenter, this.canvasCenter);
+
+        this.state.board.scores.forEach(score => {
+            ctx.fillText(score.score, 0, -this.canvasSize / 2 + 35);
+            ctx.rotate(dartboardSlice);
+        });
     }
 
     render() {
