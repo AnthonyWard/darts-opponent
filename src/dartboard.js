@@ -130,6 +130,37 @@ export default class Dartboard extends Component {
             ctx.fillText(score.score, 0, -this.canvasSize / 2 + 335);
             ctx.rotate(dartboardSlice);
         });
+
+        ctx.font = '200px sans-serif';
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = '#fffadb'; // red
+        ctx.fillStyle = '#fffadb' // cream
+
+        ctx.rotate(-0.22)
+
+
+        "WARD".split('').forEach(letter => {
+            ctx.strokeText(letter, 0, -this.canvasSize / 2 + 450);
+            ctx.rotate(0.15);
+        });
+
+        ctx.rotate(-0.60);
+
+        "WARD".split('').forEach(letter => {
+            ctx.fillText(letter, 0, -this.canvasSize / 2 + 450);
+            ctx.rotate(0.15);
+        });
+
+        
+        ctx.font = '150px sans-serif';
+        ctx.lineWidth = 7;
+        ctx.strokeStyle = '#fffadb'; // cream
+        ctx.rotate(0.02)
+
+        "EMERGENCY".split('').forEach(letter => {
+            ctx.strokeText(letter, 0, this.canvasSize / 2 - 360);
+            ctx.rotate(-0.1)
+        });
     }
 
     render() {
