@@ -7,7 +7,7 @@ export default class Dartboard extends Component {
         this.state = {
             board: new Board()
         }
-        this.canvasSize = 450;
+        this.canvasSize = 4500  ;
         this.canvasCenter = this.canvasSize / 2;
     }
 
@@ -20,8 +20,9 @@ export default class Dartboard extends Component {
         let offset = dartboardSlice * 5.5;
 
         //board
+        ctx.lineWidth = this.state.board.wireThickness * 10;
         ctx.beginPath();
-        ctx.arc(this.canvasCenter, this.canvasCenter, 210, 0, Math.PI * 2);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.canvasSize / 2 - 100, 0, Math.PI * 2);
         ctx.fill()
 
         // cork
@@ -30,7 +31,7 @@ export default class Dartboard extends Component {
 
             ctx.beginPath();
             ctx.moveTo(this.canvasCenter, this.canvasCenter);
-            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter, location, location + dartboardSlice);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter * 10, location, location + dartboardSlice);
             ctx.moveTo(this.canvasCenter, this.canvasCenter);
             if (i % 2) {
                 ctx.fillStyle = '#fffadb'; // cream
@@ -45,9 +46,9 @@ export default class Dartboard extends Component {
             let location = dartboardSlice * i - offset;
 
             ctx.beginPath();
-            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleInner, location, location);
-            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter, location, location + dartboardSlice);
-            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleInner, location + dartboardSlice, location, true);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleInner * 10, location, location);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter * 10, location, location + dartboardSlice);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleInner* 10, location + dartboardSlice, location, true);
             if (i % 2) {
                 ctx.fillStyle = '#10a500'; // green
             } else {
@@ -61,9 +62,9 @@ export default class Dartboard extends Component {
             let location = dartboardSlice * i - offset;
 
             ctx.beginPath();
-            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleInner, location, location);
-            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleOuter, location, location + dartboardSlice);
-            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleInner, location + dartboardSlice, location, true);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleInner * 10, location, location);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleOuter * 10, location, location + dartboardSlice);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleInner * 10, location + dartboardSlice, location, true);
             if (i % 2) {
                 ctx.fillStyle = '#10a500'; // green
             } else {
@@ -74,43 +75,59 @@ export default class Dartboard extends Component {
 
         // outer bull
         ctx.beginPath();
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.outerbull, 0, Math.PI * 2);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.outerbull * 10, 0, Math.PI * 2);
         ctx.fillStyle = '#10a500'; // green
         ctx.fill();
 
         // bull
         ctx.beginPath();
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.bullseye, 0, Math.PI * 2);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.bullseye * 10, 0, Math.PI * 2);
         ctx.fillStyle = '#c40000' //red
         ctx.fill();
 
         // wire
         ctx.beginPath();
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter, 0, Math.PI * 2);
-        ctx.moveTo(this.canvasCenter + this.state.board.doubleInner, this.canvasCenter);
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleInner, 0, Math.PI * 2);
-        ctx.moveTo(this.canvasCenter + this.state.board.trebleOuter, this.canvasCenter);
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleOuter, 0, Math.PI * 2);
-        ctx.moveTo(this.canvasCenter + this.state.board.trebleInner, this.canvasCenter);
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleInner, 0, Math.PI * 2);
-        ctx.moveTo(this.canvasCenter + this.state.board.outerbull, this.canvasCenter);
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.outerbull, 0, Math.PI * 2);
-        ctx.moveTo(this.canvasCenter + this.state.board.bullseye, this.canvasCenter);
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.bullseye, 0, Math.PI * 2);
-        ctx.moveTo(this.canvasCenter + this.canvasSize / 2 - 20, this.canvasCenter);
-        ctx.arc(this.canvasCenter, this.canvasCenter, this.canvasSize / 2 - 20, 0, Math.PI * 2);
-        ctx.strokeStyle = "#bbbbbb";
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter * 10, 0, Math.PI * 2);
+        ctx.moveTo(this.canvasCenter + this.state.board.doubleInner * 10, this.canvasCenter);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleInner * 10, 0, Math.PI * 2);
+        ctx.moveTo(this.canvasCenter + this.state.board.trebleOuter * 10, this.canvasCenter);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleOuter * 10, 0, Math.PI * 2);
+        ctx.moveTo(this.canvasCenter + this.state.board.trebleInner * 10, this.canvasCenter);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.trebleInner * 10, 0, Math.PI * 2);
+        ctx.moveTo(this.canvasCenter + this.state.board.outerbull * 10, this.canvasCenter);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.outerbull * 10, 0, Math.PI * 2);
+        ctx.moveTo(this.canvasCenter + this.state.board.bullseye * 10, this.canvasCenter);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.bullseye * 10, 0, Math.PI * 2);
+        ctx.strokeStyle = "#eeeeee";
+        ctx.stroke();
+
+        for(let i = 0; i < 20; i++) {
+            let location = dartboardSlice * i - offset;
+
+            ctx.beginPath();
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.outerbull * 10, location, location);
+            ctx.arc(this.canvasCenter, this.canvasCenter, this.state.board.doubleOuter * 10 + 50, location, location);
+            ctx.moveTo(this.canvasCenter, this.canvasCenter);
+            ctx.stroke()
+        }
+
+        // number wire
+        ctx.beginPath();
+        ctx.moveTo(this.canvasCenter + this.canvasSize / 2 - 190, this.canvasCenter);
+        ctx.arc(this.canvasCenter, this.canvasCenter, this.canvasSize / 2 - 190, 0, Math.PI * 2);
+        ctx.lineWidth = 20;
+        ctx.strokeStyle = "#ffffff";
         ctx.stroke();
 
 
         // numbers
         ctx.fillStyle = "#ffffff";
-        ctx.font = '20px Comic Sans MS';
+        ctx.font = '200px Comic Sans MS';
         ctx.textAlign = "center";
         ctx.translate(this.canvasCenter, this.canvasCenter);
 
         this.state.board.scores.forEach(score => {
-            ctx.fillText(score.score, 0, -this.canvasSize / 2 + 35);
+            ctx.fillText(score.score, 0, -this.canvasSize / 2 + 335);
             ctx.rotate(dartboardSlice);
         });
     }

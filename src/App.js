@@ -57,7 +57,7 @@ class App extends Component {
           <h1 className="App-title">Darts Opponent</h1>
         </header>
 
-        <div class="board">
+        <div className="board">
         <Dartboard />
         </div>
 
