@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import thinker from './thinker'
-import Board from './board';
 import Dartboard from './dartboard';
+import DartboardUI from './dartboardUI';
 
 class App extends Component {
 
@@ -19,7 +19,7 @@ class App extends Component {
       score: {}
     };
 
-    this.board = new Board();
+    this.board = new Dartboard();
 
     this.handleChange = this.handleChange.bind(this);
     this.handleThrow = this.handleThrow.bind(this);
@@ -58,7 +58,7 @@ class App extends Component {
         </header>
 
         <div className="board">
-        <Dartboard />
+        <DartboardUI />
         </div>
 
         <p className="App-intro">

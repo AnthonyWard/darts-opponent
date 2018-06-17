@@ -1,3 +1,5 @@
+import Helper from "./helper";
+
 export default class Dimensions {
     constructor(angle, radius) {
         this.angle = angle;
@@ -6,6 +8,7 @@ export default class Dimensions {
         } else if (angle > 360) {
             this.angle = angle - 360;
         }
+        this.radians = Helper.degreesToRadians(this.angle)
         this.radius = radius;
     }
 }
