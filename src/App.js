@@ -4,6 +4,8 @@ import './App.css';
 import thinker from './thinker'
 import Dartboard from './dartboard';
 import DartboardUI from './dartboardUI';
+import Button from '@material-ui/core/Button';
+import 'typeface-roboto';
 
 class App extends Component {
 
@@ -79,7 +81,8 @@ class App extends Component {
         Difficulty: <input type="number" name="diff" value={this.state.diff} onChange={this.handleInputChange} />
         </form>
 
-        <button name="throw" onClick={this.handleThrow}>Throw</button> <br/>
+
+        <Button variant="contained" color="primary" onClick={this.handleThrow}>Throw</Button> <br/>
 
         <code>{JSON.stringify(this.state.score, null, 2) || "Let's Play!"}</code>
 

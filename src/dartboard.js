@@ -42,13 +42,18 @@ export default class Dartboard {
     }
 
     throw(score, multiplier = 1, difficulty = 50) {
-        let desiredAim = new Dimensions(9, 0);
-
+        let desiredAim;
+        
         if (score === 25) {
-            desiredAim.radius = multiplier === 1 ? 0 : (this.outerbull + this.bullseye) / 2;
+            desiredAim = new Dimensions(
+                multiplier === 1 ? 0 : (this.outerbull + this.bullseye) / 2,
+                0
+            );
         } else {
-            desiredAim.angle = this.scores.find(x => x.score === score).center;
-            desiredAim.radius = this.radiusForMultiplier(multiplier);
+            desiredAim = new Dimensions(
+                this.scores.find(x => x.score === score).center,
+                this.radiusForMultiplier(multiplier)
+            );
         }
 
         // switch (dartsLeft) {
