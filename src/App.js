@@ -19,7 +19,7 @@ class App extends Component {
       score: {}
     };
 
-    this.board = new Dartboard();
+    this.dartboard = new Dartboard();
 
     this.handleChange = this.handleChange.bind(this);
     this.handleThrow = this.handleThrow.bind(this);
@@ -46,7 +46,7 @@ class App extends Component {
   handleThrow() {
     console.log("throw");
     this.setState({
-      score: this.board.throw(this.state.aimat, this.state.multi, this.state.diff)
+      score: this.dartboard.throw(this.state.aimat, this.state.multi, this.state.diff)
     });
   }
 
@@ -58,7 +58,7 @@ class App extends Component {
         </header>
 
         <div className="board">
-        <DartboardUI />
+        <DartboardUI dartboard={this.dartboard} />
         </div>
 
         <p className="App-intro">

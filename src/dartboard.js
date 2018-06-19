@@ -38,11 +38,7 @@ export default class Dartboard {
             { score: 5, from: 342, to: 360, center: 351 }
         ];
         
-        this.darts = [
-            new Dimensions(this.scores[0].center, this.trebleInner),
-            new Dimensions(this.scores[6].from, this.trebleInner),
-            new Dimensions(this.scores[18].to, this.doubleOuter)
-        ];
+        this.darts = [];
     }
 
     throw(score, multiplier = 1, difficulty = 50) {
@@ -72,6 +68,8 @@ export default class Dartboard {
 
     hit(aim) {
         let score = new Score(0);
+
+        this.darts.push(aim);
 
         // standard scoring
         if (aim.radius < 0) {
