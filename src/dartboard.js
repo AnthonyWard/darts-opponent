@@ -42,8 +42,9 @@ export default class Dartboard {
     }
 
     throw(score, multiplier = 1, difficulty = 50) {
+        console.log("Datrboard: Throw");
         let desiredAim;
-        
+
         if (score === 25) {
             desiredAim = new Dimensions(
                 multiplier === 1 ? 0 : (this.outerbull + this.bullseye) / 2,

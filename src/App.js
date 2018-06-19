@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
-import thinker from './thinker'
+import 'typeface-roboto';
+
+import Thinker from './thinker'
 import Dartboard from './dartboard';
 import DartboardUI from './dartboardUI';
+
 import Button from '@material-ui/core/Button';
-import 'typeface-roboto';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
+function Target(props) {
+  return (<p>{props.target}</p>)
+}
 
 class App extends Component {
 
@@ -22,33 +30,11 @@ class App extends Component {
     };
 
     this.dartboard = new Dartboard();
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleThrow = this.handleThrow.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = name => (event, value) => {
     this.setState({
-      remaining: event.target.value,
-      target: thinker.calculate(event.target.value)
-    });
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: parseInt(value)
-    });
-  }
-
-  handleThrow() {
-    console.log("throw");
-    this.setState({
-      score: this.dartboard.throw(this.state.aimat, this.state.multi, this.state.diff)
+      [name]: value ? value : parseInt(event.target.value)
     });
   }
 
@@ -60,31 +46,36 @@ class App extends Component {
         </header>
 
         <div className="board">
-        <DartboardUI dartboard={this.dartboard} />
+          <DartboardUI dartboard={this.dartboard} />
         </div>
 
         <p className="App-intro">
           You have {this.state.remaining} remaining
         </p>
 
-          <input type="number" value={this.state.remaining} onChange={this.handleChange} />
+          <input type="number" value={this.state.remaining} onChange={this.handleChange("remaining")} />
 
-        <h3>{this.state.target}</h3>
+        <h3>{Thinker.calculate(this.state.remaining)}</h3>
 
         <hr/>
 
         <h2>Throw</h2>
 
         <form>
-        Aim At: <input type="number" name="aimat" value={this.state.aimat} onChange={this.handleInputChange} /> - 
-        Multiplier: <input type="number" name="multi" value={this.state.multi} onChange={this.handleInputChange} /> - 
-        Difficulty: <input type="number" name="diff" value={this.state.diff} onChange={this.handleInputChange} />
+        Aim At: <input type="number" value={this.state.aimat} onChange={this.handleChange("aimat")} /> - 
+        Multiplier: <input type="number" value={this.state.multi} onChange={this.handleChange("multi")} /> - 
+        Difficulty: <input type="number" value={this.state.diff} onChange={this.handleChange("diff")} />
         </form>
 
 
-        <Button variant="contained" color="primary" onClick={this.handleThrow}>Throw</Button> <br/>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => this.handleChange("score")(null, this.dartboard.throw(this.state.aimat, this.state.multi, this.state.diff))}>
+          Throw
+        </Button>
 
-        <code>{JSON.stringify(this.state.score, null, 2) || "Let's Play!"}</code>
+        <code>{JSON.stringify(this.state.score, 2, 2) || "Let's Play!"}</code>
 
       </div>
     );
