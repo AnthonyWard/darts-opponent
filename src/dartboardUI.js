@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Dartboard from './dartboard';
 import Helper from './helper';
 
 export default class DartboardUI extends Component {

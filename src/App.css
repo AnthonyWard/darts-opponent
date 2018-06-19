@@ -43,8 +43,6 @@ div.board {
   width: 100%;
 }
 
-div.board > canvas {
+canvas {
   width: 100%;
-  min-width: 300px;
-  max-width: 600px;
 }

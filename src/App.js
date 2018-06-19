@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import './App.css';
 import 'typeface-roboto';
@@ -8,12 +9,34 @@ import Dartboard from './dartboard';
 import DartboardUI from './dartboardUI';
 
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import { withStyles } from '@material-ui/core/styles';
 
-function Target(props) {
-  return (<p>{props.target}</p>)
-}
+const styles = theme => ({
+  root: {
+    flexGrow: 1
+  },
+  flex: {
+    flex: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  card: {
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+});
 
 class App extends Component {
 
@@ -34,52 +57,92 @@ class App extends Component {
 
   handleChange = name => (event, value) => {
     this.setState({
-      [name]: value ? value : parseInt(event.target.value)
+      [name]: value ? value : Number(event.target.value)
     });
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Darts Opponent</h1>
-        </header>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="title" color="inherit" className={classes.flex}>
+              Title
+            </Typography>
+            <Button color="inherit">Login</Button>
+          </Toolbar>
+        </AppBar>
 
-        <div className="board">
-          <DartboardUI dartboard={this.dartboard} />
-        </div>
+        <Grid container spacing={24} alignItems={"flex-start"} justify={"center"}>
+          <Grid item xs={6}>
+              <DartboardUI dartboard={this.dartboard} />
+          </Grid>
+          <Grid item xs={6}>
 
-        <p className="App-intro">
-          You have {this.state.remaining} remaining
-        </p>
+              <Typography variant="display2" gutterBottom>
+              You have {this.state.remaining} remaining
+              </Typography>
 
-          <input type="number" value={this.state.remaining} onChange={this.handleChange("remaining")} />
+                    <Card className={classes.card}>
+                      <CardContent>
+                        <Typography className={classes.title} color="textSecondary">
+                          Word of the Day
+                        </Typography>
+                        <Typography variant="headline" component="h2">
+                          gtrsghrtshgrtshgrtsgh
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                          adjective
+                        </Typography>
+                        <Typography component="p">
+                          well meaning and kindly.<br />
+                          {'"a benevolent smile"'}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small">Learn More</Button>
+                      </CardActions>
+                    </Card>
 
-        <h3>{Thinker.calculate(this.state.remaining)}</h3>
 
-        <hr/>
+              <input type="number" value={this.state.remaining} onChange={this.handleChange("remaining")} />
 
-        <h2>Throw</h2>
-
-        <form>
-        Aim At: <input type="number" value={this.state.aimat} onChange={this.handleChange("aimat")} /> - 
-        Multiplier: <input type="number" value={this.state.multi} onChange={this.handleChange("multi")} /> - 
-        Difficulty: <input type="number" value={this.state.diff} onChange={this.handleChange("diff")} />
-        </form>
+              <h3>{Thinker.calculate(this.state.remaining)}</h3>
 
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => this.handleChange("score")(null, this.dartboard.throw(this.state.aimat, this.state.multi, this.state.diff))}>
-          Throw
-        </Button>
+              <hr />
 
-        <code>{JSON.stringify(this.state.score, 2, 2) || "Let's Play!"}</code>
+              <h2>Throw</h2>
 
+              <form>
+                Aim At: <input type="number" value={this.state.aimat} onChange={this.handleChange("aimat")} /> -
+                Multiplier: <input type="number" value={this.state.multi} onChange={this.handleChange("multi")} /> -
+                Difficulty: <input type="number" value={this.state.diff} onChange={this.handleChange("diff")} />
+              </form>
+
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => this.handleChange("score")(null, this.dartboard.throw(this.state.aimat, this.state.multi, this.state.diff))}>
+                Throw
+              </Button>
+
+              <code>{JSON.stringify(this.state.score, 2, 2) || "Let's Play!"}</code>
+
+          </Grid>
+        </Grid>
       </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
