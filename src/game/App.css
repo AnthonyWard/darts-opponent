@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+button[name="throw"] {
+  margin: 3em;
+  height: 3em;
+}
+
+div.board {
+  width: 100%;
+}
+
+canvas {
+  width: 100%;
+}
