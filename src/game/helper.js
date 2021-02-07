@@ -15,7 +15,7 @@ export default class Helper {
         // draw
         ctx.beginPath();
         ctx.rotate(dimensions.radians); // transform rotation
-        ctx.arc(dimensions.radius * 10, 0, 50, 0, Math.PI * 2); // transform radius
+        ctx.arc(dimensions.radius * 10, 0, 30, 0, Math.PI * 2); // transform radius
         ctx.fill();
         ctx.stroke();
 

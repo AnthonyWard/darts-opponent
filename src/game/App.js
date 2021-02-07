@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import './App.css';
@@ -8,7 +8,7 @@ import Dartboard from './dartboard';
 import DartboardUI from './dartboardUI';
 
 import Button from '@material-ui/core/Button';
-// import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
@@ -18,130 +18,110 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    background: '#eeeeee'
   },
-  flex: {
-    flex: 1,
+  content: {
+    margin: 30
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-  card: {
+  paper: {
+    padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
-});
+}));
 
-class App extends Component {
+export default function App() {
 
-  constructor(props) {
-    super(props);
+  const [state, setState] = useState({
+    remaining: 180,
+    target: "Let's play",
+    aimat: 20,
+    multi: 3,
+    diff: 30,
+    score: {}
+  });
 
-    this.state = {
-      remaining: 180,
-      target: "Let's play",
-      aimat: 20,
-      multi: 3,
-      diff: 30,
-      score: {}
-    };
+  const classes = useStyles();
 
-    this.dartboard = new Dartboard();
-  }
+  const dartboard = new Dartboard();
 
-  handleChange = name => (event, value) => {
-    this.setState({
+  const handleChange = name => (event, value) => {
+    setState({
       [name]: value ? value : Number(event.target.value)
     });
   }
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
-              Title
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="title" color="inherit" className={classes.flex}>
+            Title
             </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+      <div className={classes.content}>
 
-        <Grid container spacing={24} alignItems={"flex-start"} justify={"center"}>
-          <Grid item xs={6}>
-              <DartboardUI dartboard={this.dartboard} />
+
+        <Grid container spacing={3}>
+          <Grid item md={6}>
+            <Paper className={classes.paper}>
+              <DartboardUI dartboard={dartboard} />
+            </Paper>
           </Grid>
-          <Grid item xs={6}>
 
-              <Typography variant="display2" gutterBottom>
-              You have {this.state.remaining} remaining
-              </Typography>
+          <Grid item md={6}>
+            <Paper className={classes.paper}>
+              You have {state.remaining} remaining
+              <Grid item xs={6}>
+                60
+                80
+                45
+              </Grid>
+              <Grid item xs={6}>
+                140
+                26
+                3
+            </Grid>
+            </Paper>
 
-                    <Card className={classes.card}>
-                      <CardContent>
-                        <Typography className={classes.title} color="textSecondary">
-                          Word of the Day
-                        </Typography>
-                        <Typography variant="headline" component="h2">
-                          gtrsghrtshgrtshgrtsgh
-                        </Typography>
-                        <Typography className={classes.pos} color="textSecondary">
-                          adjective
-                        </Typography>
-                        <Typography component="p">
-                          well meaning and kindly.<br />
-                          {'"a benevolent smile"'}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small">Learn More</Button>
-                      </CardActions>
-                    </Card>
+            <input type="number" value={state.remaining} onChange={handleChange("remaining")} />
+
+            <h3>{Thinker.calculate(state.remaining)}</h3>
 
 
-              <input type="number" value={this.state.remaining} onChange={this.handleChange("remaining")} />
+            <hr />
 
-              <h3>{Thinker.calculate(this.state.remaining)}</h3>
+            <h2>Throw</h2>
 
-
-              <hr />
-
-              <h2>Throw</h2>
-
-              <form>
-                Aim At: <input type="number" value={this.state.aimat} onChange={this.handleChange("aimat")} /> -
-                Multiplier: <input type="number" value={this.state.multi} onChange={this.handleChange("multi")} /> -
-                Difficulty: <input type="number" value={this.state.diff} onChange={this.handleChange("diff")} />
-              </form>
+            <form>
+              Aim At: <input type="number" value={state.aimat} onChange={handleChange("aimat")} /> -
+              Multiplier: <input type="number" value={state.multi} onChange={handleChange("multi")} /> -
+              Difficulty: <input type="number" value={state.diff} onChange={handleChange("diff")} />
+            </form>
 
 
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => this.handleChange("score")(null, this.dartboard.throw(this.state.aimat, this.state.multi, this.state.diff))}>
-                Throw
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleChange("score")(null, dartboard.throw(state.aimat, state.multi, state.diff))}>
+              Throw
               </Button>
 
-              <code>{JSON.stringify(this.state.score, 2, 2) || "Let's Play!"}</code>
+            <code>{JSON.stringify(state.score, 2, 2) || "Let's Play!"}</code>
 
           </Grid>
         </Grid>
       </div>
-    );
-  }
+    </div>
+  )
 }
-
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(App);
