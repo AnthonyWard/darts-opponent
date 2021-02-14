@@ -1,5 +1,4 @@
-import React, { Component, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 import './App.css';
 
@@ -15,10 +14,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function App() {
+
+  const game = useSelector(store => store);
 
   const [state, setState] = useState({
     remaining: 180,
@@ -81,7 +80,7 @@ export default function App() {
 
           <Grid item md={6}>
             <Paper className={classes.paper}>
-              You have {state.remaining} remaining
+              You have {state.remaining} remaining {game.total}
               <Grid item xs={6}>
                 60
                 80
