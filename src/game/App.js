@@ -15,7 +15,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addScore } from '../logic/game'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
 
   const game = useSelector(store => store);
+  const dispatch = useDispatch();
 
   const [state, setState] = useState({
     remaining: 180,
@@ -114,7 +116,14 @@ export default function App() {
               color="primary"
               onClick={() => handleChange("score")(null, dartboard.throw(state.aimat, state.multi, state.diff))}>
               Throw
-              </Button>
+            </Button>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => dispatch(addScore(10))}>
+              Test
+            </Button>
 
             <code>{JSON.stringify(state.score, 2, 2) || "Let's Play!"}</code>
 
